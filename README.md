@@ -1,0 +1,1 @@
+# spin_technology_test_task
