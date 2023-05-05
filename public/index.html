@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- <meta name="google-signin-scope" content="profile email"> -->
+    <!-- <meta name="google-signin-client-id"  -->
+     <!-- content="470281871112-3ljhjvae2tsmc8tn59te1cb0bbdtfvgn.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> -->
+
+    <title>React App</title>
+
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
+
+    <!-- <script>
+      function handleCredentialResponse(response) {
+        console.log("Encoded JWT ID token: " + response.credential);
+      }
+      window.onload = function () {
+        google.accounts.id.initialize({
+          client_id: "470281871112-3ljhjvae2tsmc8tn59te1cb0bbdtfvgn.apps.googleusercontent.com",
+          callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+          document.getElementById("buttonDiv"),
+          { theme: "outline", size: "large" }  // customization attributes
+        );
+        google.accounts.id.prompt(); // also display the One Tap dialog
+      }
+  </script>
+  <div id="buttonDiv"></div>  -->
+<!-- 
+    <div class="g.signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+      <script>
+        function onSignIn(googleUser) {
+          var profile = googleUser.getBasicProfile();
+          console.log("ID: " + profile.getId());
+          console.log("Full Name: " + profile.getName());
+          console.log("Given Name: " + profile.getGivenName());
+          console.log("Family Name: " + profile.getFamilyName());
+          console.log("Image URL: " + profile.getImageUrl());
+          console.log("Email: " + profile.getEmail());
+
+          var id_token = googleUser.getAuthResponse().id_token;
+          console.log("ID Token" + id_token);
+        }
+      </script> -->
+  </body>
+</html>
