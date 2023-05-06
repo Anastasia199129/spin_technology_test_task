@@ -1,6 +1,7 @@
 import React from 'react'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import { GoogleLogout } from 'react-google-login'
+import Header from '../../components/Header/Header'
 
 export default function HomePage() {
 
@@ -12,6 +13,7 @@ export default function HomePage() {
   return (
     <div>
       HomePage
+      <Header/>
       <Sidebar/>
 
       {/* <GoogleLogout

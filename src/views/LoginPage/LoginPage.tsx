@@ -1,6 +1,8 @@
 // import React from 'react'
 // import { GoogleLogin } from 'react-google-login'
 import { useNavigate } from 'react-router-dom'
+import Header from '../../components/Header/Header'
+import NewHeader from '../../components/Header/NewHeader'
 // import { useGoogleLogin } from 'react-google-login'
 
 export default function LoginPage() {
@@ -40,6 +42,9 @@ export default function LoginPage() {
 
   return (
     <div>
+      <Header/>
+      {/* <NewHeader/> */}
+      login
       {/* LoginPage
       <GoogleLogin
         clientId='470281871112-3ljhjvae2tsmc8tn59te1cb0bbdtfvgn.apps.googleusercontent.com'
