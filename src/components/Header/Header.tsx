@@ -25,30 +25,31 @@ function Header() {
 
   const navigate = useNavigate()
 
-  const CLIENT_ID ='372431297241-vpgudgem9jnkoibs47562f8sqd834eks.apps.googleusercontent.com'
+  const CLIENT_ID = '470281871112-fn8l1fr00gpv5vaotk3sll3l4nguknl5.apps.googleusercontent.com'
+  // '372431297241-vpgudgem9jnkoibs47562f8sqd834eks.apps.googleusercontent.com'
   const API_KEY = 'AIzaSyB8yzwc129nicgWGIWYvbCDn3MHzUAiHzw'
   const SCOPE = 'https://www.googleapis.com/auth/gmail.readonly'
 
-  useEffect(() => {
-    // function start(){
-    //   gapi.client.init({
-    //     clientId: CLIENT_ID,
-    //     apiKey: API_KEY,
-    //     scope: SCOPE
-    //   })
-    //   gapi.load('client:auth2', start)
-    // }
-    gapi.load('auth2', function () {
-      gapi.auth2.getAuthInstance({
-        apiKey: API_KEY,
-        client_id: CLIENT_ID,
-        // cookie_policy: 'single_host_origin',
-        // discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'],
-        scope: SCOPE
-        // scope: SCOPE,
-      })
-    })
-  }, [])
+  // useEffect(() => {
+  //   // function start(){
+  //   //   gapi.client.init({
+  //   //     clientId: CLIENT_ID,
+  //   //     apiKey: API_KEY,
+  //   //     scope: SCOPE
+  //   //   })
+  //   //   gapi.load('client:auth2', start)
+  //   // }
+  //   gapi.load('auth2', function () {
+  //     gapi.auth2.getAuthInstance({
+  //       apiKey: API_KEY,
+  //       client_id: CLIENT_ID,
+  //       // cookie_policy: 'single_host_origin',
+  //       // discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'],
+  //       scope: SCOPE
+  //       // scope: SCOPE,
+  //     })
+  //   })
+  // }, [])
 
   // let accessToken = gapi.auth.getToken().access_token
 
@@ -68,21 +69,13 @@ function Header() {
     return await response.json()
   }
 
-  // useEffect(() => {
-  //   if (token) {
-  //     console.log('gggggggggg',fetchRest(token));
-  //   }
-  // }, [token])
-
   const onSuccess = (response: any) => {
-    // console.log({token: response.accessToken});
-    // console.log({tokenId: response.tokenId});
     console.log({response})
     setId(response.googleId)
     setUser(response.profileObj)
     setToken(response.accessToken)
-    if(response.accessToken ){
-      console.log('gggggggggg',fetchRest(token, response.profileObj.email))
+    if(response.accessToken){
+      console.log('gggggggggg',fetchRest(response.accessToken, response.googleId))
     }
    
     setIsLoggedIn(true)
@@ -127,8 +120,9 @@ function Header() {
           buttonText='Login with Google'
           onSuccess={onSuccess}
           onFailure={onFailure}
-          cookiePolicy={'single_host_origin'}
+          // cookiePolicy={'single_host_origin'}
           isSignedIn={true}
+          scope={SCOPE}
         />
       )}
     </div>
@@ -136,3 +130,4 @@ function Header() {
 }
 
 export default Header
+// scope="https://mail.google.com/ https://www.googleapis.com/auth/gmail.modify https://www.googleapis.com/auth/gmail.compose https://www.googleapis.com/auth/gmail.insert https://www.googleapis.com/auth/gmail.labels https://www.googleapis.com/auth/gmail.metadata"
