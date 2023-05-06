@@ -1,14 +1,13 @@
-import { Suspense, useEffect, useState } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { useState } from 'react'
 
 // import Form from './components/Form/Form'
 // import HomePage from './views/HomaPage/HomePage'
 // import LoginPage from './views/LoginPage/LoginPage'
 // import './styles/global.sass'
 // 521840941505-g9pl366skc763nkmh8mes9ghscbliurp.apps.googleusercontent.com
-
+// import s from './Header.module.sass'
 import GoogleLogin, { GoogleLogout } from 'react-google-login'
-import { loadAuth2, gapi } from 'gapi-script'
+import { gapi } from 'gapi-script'
 import { useNavigate } from 'react-router-dom'
 
 function Header() {
@@ -19,47 +18,19 @@ function Header() {
     tokenId: '',
   })
   const [isLoggedIn, setIsLoggedIn] = useState<any>(false)
-  const [id, setId] = useState('')
-  const [token, setToken] = useState('')
-  // let  ACCESS_TOKEN = JSON.parse(localStorage.getItem('token'))
 
   const navigate = useNavigate()
 
-  const CLIENT_ID = '470281871112-fn8l1fr00gpv5vaotk3sll3l4nguknl5.apps.googleusercontent.com'
-  // '372431297241-vpgudgem9jnkoibs47562f8sqd834eks.apps.googleusercontent.com'
-  const API_KEY = 'AIzaSyB8yzwc129nicgWGIWYvbCDn3MHzUAiHzw'
+  const CLIENT_ID =
+    '470281871112-fn8l1fr00gpv5vaotk3sll3l4nguknl5.apps.googleusercontent.com'
   const SCOPE = 'https://www.googleapis.com/auth/gmail.readonly'
-
-  // useEffect(() => {
-  //   // function start(){
-  //   //   gapi.client.init({
-  //   //     clientId: CLIENT_ID,
-  //   //     apiKey: API_KEY,
-  //   //     scope: SCOPE
-  //   //   })
-  //   //   gapi.load('client:auth2', start)
-  //   // }
-  //   gapi.load('auth2', function () {
-  //     gapi.auth2.getAuthInstance({
-  //       apiKey: API_KEY,
-  //       client_id: CLIENT_ID,
-  //       // cookie_policy: 'single_host_origin',
-  //       // discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest'],
-  //       scope: SCOPE
-  //       // scope: SCOPE,
-  //     })
-  //   })
-  // }, [])
-
-  // let accessToken = gapi.auth.getToken().access_token
-
 
   async function fetchRest(token: string, googleId: string) {
     const response = await fetch(
       // `https://gmail.googleapis.com/gmail/v1/users/${googleId}/profile`,
-      `https://gmail.googleapis.com/gmail/v1/users/${googleId}/labels`,
+      `https://gmail.googleapis.com/gmail/v1/users/${googleId}/messages?q=SPAM`,
+
       {
-        // mode: 'cors',
         headers: new Headers({
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -69,19 +40,21 @@ function Header() {
     return await response.json()
   }
 
+  // `https://gmail.googleapis.com/gmail/v1/users/${googleId}/messages?q=in:SPAM`
+
   const onSuccess = (response: any) => {
-    console.log({response})
-    setId(response.googleId)
-    setUser(response.profileObj)
-    setToken(response.accessToken)
-    if(response.accessToken){
-      console.log('gggggggggg',fetchRest(response.accessToken, response.googleId))
+    console.log({ response })
+    if (response.accessToken) {
+      console.log(
+        'gggggggggg',
+        fetchRest(response.accessToken, response.googleId)
+      )
     }
-   
+
     setIsLoggedIn(true)
     localStorage.setItem('token', JSON.stringify(response.accessToken))
     localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
-    // navigate('/home')
+    navigate('/home', { state: { someData: 'hello world' } })
   }
 
   const onFailure = (response: any) => {
@@ -91,11 +64,12 @@ function Header() {
   const onLogoutSuccess = () => {
     console.log('Logged out successfully')
     setIsLoggedIn(false)
+    localStorage.setItem('token', '')
     localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn))
     gapi.auth2.getAuthInstance().signOut()
     gapi.auth2.getAuthInstance().disconnect()
 
-    // navigate('/')
+    navigate('/')
   }
 
   return (

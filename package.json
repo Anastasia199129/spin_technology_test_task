@@ -45,5 +45,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/Anastasia199129/spin_technology_test_task.git",
+  "author": "Anastasia199129 <nastasia199126@gmail.com>",
+  "license": "MIT"
 }
