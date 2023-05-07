@@ -5,6 +5,7 @@ interface Params {
   email: string
   resource?: string
   currentLabel?: string
+  messageId?: string
 }
 
 export const getLabels = async ({ token, email, resource }: Params) => {
@@ -51,10 +52,32 @@ export const getMessages = async ({
             config
           )
         })
- 
       )
       return arrayMessages
     } else return []
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const getMessageDetails = async ({
+  token,
+  email,
+  messageId,
+}: Params) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  try {
+    const response = await axios.get(
+      `https://gmail.googleapis.com/gmail/v1/users/${email}/messages/${messageId}?format=full`,
+      config
+    )
+    if (response.data) {
+      return response.data
+    } else throw new Error('Something is wrong')
   } catch (error) {
     console.error(error)
   }
