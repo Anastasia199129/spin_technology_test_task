@@ -1,67 +1,61 @@
-// interface Params {
-//   url: string
-//   id?: string
-// }
 import axios from 'axios'
-import { useSelector } from 'react-redux';
 
-import { RootState } from '../redux/store';
+interface Params {
+  token: string
+  email: string
+  resource?: string
+  currentLabel?: string
+}
 
-
-
-
-export const getData = async (
-  token: string,
-  email: string,
-  // url: string,
-  resource: string,
-  query?: string,
-  id?: string
-) => {
-
+export const getLabels = async ({ token, email, resource }: Params) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
-
   try {
-    const response = await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${email}/${resource}`, config)
-    console.log(response.data)
-    return response.data
+    const response = await axios.get(
+      `https://gmail.googleapis.com/gmail/v1/users/${email}/${resource}`,
+      config
+    )
+    if (response.data) {
+      return response.data
+    } else throw new Error('Something is wrong')
   } catch (error) {
     console.error(error)
   }
 }
 
-// const token = 'your_token_here'
-
-// const config = {
-//   headers: {
-//     Authorization: `Bearer ${token}`,
-//   },
-// }
-
-// axios
-//   .get('http://example.com/api/data', config)
-//   .then((response) => {
-//     console.log(response.data)
-//   })
-//   .catch((error) => {
-//     console.error(error)
-//   })
-
-// async function fetchRest(token: string, googleId: string) {
-//   const response = await fetch(
-//     // `https://gmail.googleapis.com/gmail/v1/users/${googleId}/profile`,
-//     `https://gmail.googleapis.com/gmail/v1/users/${googleId}/messages?q=SPAM`,
-
-//     {
-//       headers: new Headers({
-//         Authorization: `Bearer ${token}`,
-//         'Content-Type': 'application/json',
-//       }),
-//     }
-//   )
-//   return await response.json()
-// }
+export const getMessages = async ({
+  token,
+  email,
+  resource,
+  currentLabel,
+}: Params) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  try {
+    const response = await axios.get(
+      `https://gmail.googleapis.com/gmail/v1/users/${email}/${resource}?q=in:${currentLabel}&maxResults=50`,
+      // &fields=messages(id,payload(headers,date,subject))
+      config
+    )
+    if (response?.data?.messages?.length) {
+      const arrayMessages = await Promise.all(
+        response.data.messages.map(({ id }: any) => {
+          return axios.get(
+            `https://gmail.googleapis.com/gmail/v1/users/${email}/messages/${id}?format=full`,
+            config
+          )
+        })
+ 
+      )
+      return arrayMessages
+    } else return []
+  } catch (error) {
+    console.error(error)
+  }
+}

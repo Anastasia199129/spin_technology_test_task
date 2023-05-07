@@ -1,32 +1,41 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import Sidebar from '../../components/Sidebar/Sidebar'
-import { getData } from '../../helpers/getData'
+import { getLabels } from '../../helpers/getData'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
+import MessagesList from '../../components/MessagesList/MessagesList'
 
+import './HomePage.sass'
 
 export default function HomePage() {
-  const user = useSelector((state: RootState) => state.user);
-  console.log({user});
+  const [labels, setLabels] = useState(null)
+  const user = useSelector((state: RootState) => state.user)
 
   useEffect(() => {
-    const getLabels = async () => {
+    const getData = async () => {
       if (user?.token && user?.email) {
-        const resp = await getData(
-          user?.token,
-          user?.email,
-          'labels'
-        )
-        console.log({ resp })
+        try {
+          const response = await getLabels({token: user?.token, email: user?.email, resource: 'labels'})
+          if (response) {
+            setLabels(response.labels)
+          }
+        } catch (error) {
+          console.log(error)
+        }
       }
     }
-    getLabels()
+    getData()
+  }, [])
+
+  useEffect(()=> {
+
   }, [])
 
   return (
-    <div>
-      <Sidebar />
+    <div className='homePageWrapper'>
+      <Sidebar labels={labels} />
+      <MessagesList/>
     </div>
   )
 }

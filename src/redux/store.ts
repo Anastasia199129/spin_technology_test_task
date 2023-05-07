@@ -26,10 +26,7 @@ const store = configureStore({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  }),
-devTools: process.env.NODE_ENV === 'development',
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().concat(thunkMiddleware),
+  })
 })
 
 export type RootState = ReturnType<typeof userReducer>
@@ -37,13 +34,3 @@ export type RootState = ReturnType<typeof userReducer>
 export const persistor = persistStore(store)
 
 export default store
-
-// import rootReducer from './reducers';
-
-// const store = configureStore({
-//   reducer: rootReducer,
-// });
-
-// export type RootState = ReturnType<typeof store.getState>;
-
-// export default store;

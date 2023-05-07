@@ -14,10 +14,9 @@ import './styles/global.sass'
 import Loader from './components/Loader/Loader'
 // import s from './App.module.scss'
 
-let loader = localStorage.getItem('isLoggedIn')
+// let loader = localStorage.getItem('isLoggedIn')
 
 function App() {
-  console.log({store: store.getState(), persistor});
 
   return (
     <Provider store={store}>

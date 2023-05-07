@@ -9,16 +9,13 @@ import { RootState } from '../../redux/store'
 import './Header.sass'
 
 function Header() {
-
   const [user, setUserw] = useState({
     imageUrl: '',
     name: '',
   })
   const userSlice = useSelector((state: RootState) => state.user)
-
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
   const CLIENT_ID =
     '470281871112-fn8l1fr00gpv5vaotk3sll3l4nguknl5.apps.googleusercontent.com'
   const SCOPE = 'https://www.googleapis.com/auth/gmail.readonly'
@@ -30,6 +27,7 @@ function Header() {
           token: response.accessToken,
           email: response.profileObj.email,
           isLoggedIn: true,
+          name: response.profileObj.name,
         })
       )
       setUserw(response.profileObj)
@@ -59,11 +57,11 @@ function Header() {
             buttonText='Logout'
             onLogoutSuccess={onLogoutSuccess}
           />
-          {user.name && user.imageUrl && (
+          {userSlice.name && (
             <div className='wrapperUser'>
-              <span>{user.name.slice(0, 2)}</span>
+              <span>{userSlice.name.slice(0, 2)}</span>
               {/* <img src={user.imageUrl} alt={user.name} />  */}
-              <h3>{user.name}</h3>
+              <h3>{userSlice.name}</h3>
             </div>
           )}
         </>

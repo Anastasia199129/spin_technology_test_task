@@ -6,6 +6,11 @@
       "dom.iterable",
       "esnext"
     ],
+    "typeRoots": ["./custom.d.ts"],
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*"]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
