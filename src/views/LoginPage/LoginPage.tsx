@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom'
+import './LoginPage.sass'
 
 export default function LoginPage() {
   
-  const navigate = useNavigate()
-
-  return <div>login</div>
+  return <div className='wrapper'>
+    <h2>Welcome! <br/> Sign in with google</h2>
+  </div>
 }
