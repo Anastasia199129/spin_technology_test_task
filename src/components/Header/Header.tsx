@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import GoogleLogin, { GoogleLogout } from 'react-google-login'
 import { gapi } from 'gapi-script'
 import { useNavigate } from 'react-router-dom'
@@ -9,10 +8,6 @@ import { RootState } from '../../redux/store'
 import './Header.sass'
 
 function Header() {
-  const [user, setUserw] = useState({
-    imageUrl: '',
-    name: '',
-  })
   const userSlice = useSelector((state: RootState) => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -30,7 +25,6 @@ function Header() {
           name: response.profileObj.name,
         })
       )
-      setUserw(response.profileObj)
       navigate('/home')
     }
   }

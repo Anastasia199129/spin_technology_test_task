@@ -1,20 +1,14 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-
-import HomePage from './views/HomaPage/HomePage'
-import LoginPage from './views/LoginPage/LoginPage'
-import Header from './components/Header/Header'
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from './redux/store';
 
-
-
+import Loader from './components/Loader/Loader'
+import HomePage from './views/HomaPage/HomePage'
+import LoginPage from './views/LoginPage/LoginPage'
+import Header from './components/Header/Header'
 
 import './styles/global.sass'
-import Loader from './components/Loader/Loader'
-// import s from './App.module.scss'
-
-// let loader = localStorage.getItem('isLoggedIn')
 
 function App() {
 

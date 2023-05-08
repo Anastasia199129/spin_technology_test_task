@@ -16,7 +16,11 @@ export default function HomePage() {
     const getData = async () => {
       if (user?.token && user?.email) {
         try {
-          const response = await getLabels({token: user?.token, email: user?.email, resource: 'labels'})
+          const response = await getLabels({
+            token: user?.token,
+            email: user?.email,
+            resource: 'labels',
+          })
           if (response) {
             setLabels(response.labels)
           }
@@ -28,14 +32,10 @@ export default function HomePage() {
     getData()
   }, [])
 
-  useEffect(()=> {
-
-  }, [])
-
   return (
     <div className='homePageWrapper'>
       <Sidebar labels={labels} />
-      <MessagesList/>
+      <MessagesList />
     </div>
   )
 }
