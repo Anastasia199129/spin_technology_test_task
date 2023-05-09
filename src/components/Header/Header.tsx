@@ -1,4 +1,5 @@
 import GoogleLogin, { GoogleLogout } from 'react-google-login'
+import { useEffect } from 'react'
 import { gapi } from 'gapi-script'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +15,12 @@ function Header() {
   const CLIENT_ID =
     '470281871112-fn8l1fr00gpv5vaotk3sll3l4nguknl5.apps.googleusercontent.com'
   const SCOPE = 'https://www.googleapis.com/auth/gmail.readonly'
+
+  useEffect(() => {
+    if (userSlice.isLoggedIn === true) {
+      navigate('/home')
+    } else return
+  }, [])
 
   const onSuccess = (response: any) => {
     if (response.accessToken) {
@@ -43,7 +50,9 @@ function Header() {
 
   return (
     <div className='header'>
+
       <h1>Welcome</h1>
+
       {userSlice?.isLoggedIn ? (
         <>
           <GoogleLogout
@@ -69,6 +78,7 @@ function Header() {
           scope={SCOPE}
         />
       )}
+      
     </div>
   )
 }

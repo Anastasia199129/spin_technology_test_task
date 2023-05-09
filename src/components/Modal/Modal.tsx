@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getMessageDetails } from '../../helpers/getData'
 import { formatDate } from '../../helpers/formatDate'
 import { getDataByHeaderName } from '../../helpers/getSubject'
@@ -9,12 +9,13 @@ import './Modal.sass'
 
 interface Props {
   id: string | undefined
-  onClick: () => void
+  onClick?: (e: any) => void
 }
 
-export default function Modal({ id, onClick }: Props) {
+export default function Modal({ onClick, id }: Props) {
 
   const [message, setMessage] = useState<any>([])
+  const modalRef = useRef<HTMLDivElement | null>(null)
   const user = useSelector((state: any) => state.user)
 
   useEffect(() => {
@@ -33,18 +34,40 @@ export default function Modal({ id, onClick }: Props) {
     getData()
   }, [])
 
+  useEffect(() => {
+    if (modalRef.current && onClick) {
+      modalRef.current.addEventListener('click', onClick)
+    }
+    return () => {
+      if (modalRef.current && onClick) {
+        modalRef.current.removeEventListener('click', onClick)
+      }
+    }
+  }, [])
+
   return (
-    <div className='overlay'>
+    <div 
+      className='overlay' 
+      ref={modalRef}
+    >
       {message && (
         <div className='modal'>
-          <button onClick={onClick}>Close</button>
+
+          <button 
+            onClick={onClick} 
+            className='closeBtn'
+          >
+            Close
+          </button>
+
           <p>Date: {formatDate(message.internalDate)}</p>
           <p>
             Theme: {getDataByHeaderName(message?.payload?.headers, 'Subject')}
           </p>
           <p>From: {getDataByHeaderName(message?.payload?.headers, 'From')}</p>
           <p>To: {getDataByHeaderName(message?.payload?.headers, 'To')}</p>
-          <p>Text:</p>{' '}
+          <p>Text:</p>
+
           {message?.payload?.parts ? (
             <div
               dangerouslySetInnerHTML={{
@@ -56,6 +79,7 @@ export default function Modal({ id, onClick }: Props) {
           ) : (
             <p>{message?.snippet}</p>
           )}
+
         </div>
       )}
     </div>

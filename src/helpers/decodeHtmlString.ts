@@ -4,6 +4,5 @@ export const decodeHtmlString = (str: string) => {
   if (str) {
     let string = Base64.decode(str)
     return string
-  }
-  return '<p>No body!</p>'
+  } else return '<p>No body!</p>'
 }
